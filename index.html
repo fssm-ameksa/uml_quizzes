@@ -39,60 +39,80 @@
         </div>
     </div>
     
-    <script>
-        function requestFullscreen() {
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { // Firefox
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { // IE/Edge
-                elem.msRequestFullscreen();
+<script>
+    function requestFullscreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+    }
+
+    let totalTime = 10 * 60;
+    let interval;
+
+    function startCountdown() {
+        const countdownElem = document.getElementById('countdown');
+        interval = setInterval(function () {
+            const minutes = Math.floor(totalTime / 60);
+            let seconds = totalTime % 60;
+            if (seconds < 10) seconds = "0" + seconds;
+            countdownElem.textContent = minutes + ":" + seconds;
+            totalTime--;
+            if (totalTime < 0) {
+                clearInterval(interval);
+                handleTimeUp();
             }
+        }, 1000);
+    }
+
+    let penaltyApplied = false;
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden && !penaltyApplied) {
+            penaltyApplied = true;
+            handlePenalty();
         }
+    });
 
-        // Countdown Timer
-        let totalTime = 10 * 60; // 60 minutes in seconds
-        function startCountdown() {
-            const countdownElem = document.getElementById('countdown');
-            const interval = setInterval(function () {
-                const minutes = Math.floor(totalTime / 60);
-                let seconds = totalTime % 60;
-                if (seconds < 10) seconds = "0" + seconds;
-                countdownElem.textContent = minutes + ":" + seconds;
-                totalTime--;
-                if (totalTime < 0) {
-                    clearInterval(interval);
-                    alert("Time is up! Your exam will be submitted.");
-                    // Optionally, trigger auto-submission or additional actions here.
-                }
-            }, 1000);
+    function handlePenalty() {
+        clearFormContainerAndDisplayMessage("Vous avez quitté l'examen. Votre score sera fixé à 0.");
+    }
+
+    function handleTimeUp() {
+        // Display a message when the time is up
+        clearFormContainerAndDisplayMessage("Le temps est écoulé ! Votre examen a été soumis.");
+    }
+
+    function clearFormContainerAndDisplayMessage(message) {
+        const formContainer = document.getElementById('formContainer');
+        if (formContainer) {
+            // Clear the formContainer
+            formContainer.innerHTML = '';
+            // Display a sample message
+            const messageElement = document.createElement('div');
+            messageElement.style.textAlign = 'center';
+            messageElement.style.fontSize = '24px';
+            messageElement.style.marginTop = '50px';
+            messageElement.textContent = message;
+            formContainer.appendChild(messageElement);
         }
+    }
 
-        // Detect if the user navigates away (switches tabs or minimizes)
-        let penaltyApplied = false;
-        document.addEventListener('visibilitychange', function () {
-            if (document.hidden && !penaltyApplied) {
-                penaltyApplied = true;
-                alert("You have navigated away from the exam. Your score will be set to 0.");
-                // Optionally, add logic to record the penalty on your backend.
-            }
-        });
+    function displayExam() {
+        var htmlCode = '<iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/1D_pWmh_oXz-fNSMROz19si_VLB7urpk8_IfVIdvUm8g/viewform?embedded=true"></iframe>';
+        var element = document.getElementById('formContainer');
+        element.innerHTML = htmlCode;
+    }
 
-
-        function displayExam(){
-            var htmlCode = '<iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/1D_pWmh_oXz-fNSMROz19si_VLB7urpk8_IfVIdvUm8g/viewform?embedded=true"></iframe>';
-            var element = document.getElementById('formContainer');
-            element.innerHTML = htmlCode;
-            
-        }
-
-        btn = document.getElementById('fullscreenBtn');
-        btn.addEventListener("click", requestFullscreen);
-        btn.addEventListener("click", displayExam);
-        btn.addEventListener("click", startCountdown);
-    </script>
+    btn = document.getElementById('fullscreenBtn');
+    btn.addEventListener("click", requestFullscreen);
+    btn.addEventListener("click", displayExam);
+    btn.addEventListener("click", startCountdown);
+</script>
 </body>
 </html>
