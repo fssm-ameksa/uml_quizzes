@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+    if (sessionStorage.getItem('fullS') == 'true') {
+        const browserName = sessionStorage.getItem('browserName');
+        if (browserName == "Chrome") {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (browserName == "Safari")  {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (browserName == "Firefox"){
+            document.documentElement.mozRequestFullScreen();
+        } else if (sessionStorage.getItem('browserName') == "Edge") {
+            document.documentElement.msRequestFullscreen();
+        } else if (browserName == "OPR") {
+            document.documentElement.webkitRequestFullscreen();
+        }
+    }
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        }
+        /* Layout: Sidebar and main content */
+        .wrapper {
+        display: flex;
+        height: 100%;
+        }
+        /* Sidebar styling */
+        .sidebar {
+        width: 300px;
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+        color: #fff;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        }
+        .sidebar h2 {
+        margin-top: 0;
+        font-size: 28px;
+        }
+        .timer {
+        font-size: 48px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+        }
+        .instructions {
+        font-size: 16px;
+        line-height: 1.5;
+        }
+        /* Main content styling */
+        .main-content {
+        flex: 1;
+        background-color: #f0f0f0;
+        position: relative;
+        }
+        .iframe-container {
+        width: 100%;
+        height: 100%;
+        border: none;
+        }
+    
+        /* Iframe styling to display the Google Form */
+        iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+
+        h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        }
+        button {
+        font-size: 24px;
+        padding: 15px 30px;
+        background: #fff;
+        color: #4e54c8;
+        border-color: #4e54c8;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+        }
+        button:hover {
+        background: #4e54c8;
+        color: #fff;
+        }
+        .instructions{
+            margin: auto;
+        }
+        .note-card {
+    background: #fff3e0;
+    border: 1px solid #ffcc80;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 60%;
+    margin: auto;
+}
+
+.note-card .icon {
+    font-size: 50px;
+    color: #ff9800;
+}
+
+.note-card .content {
+    font-size: 16px;
+    color: #555;
+    background: #fff3e0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <div>
+                <h2>Quiz de Révision</h2>
+                <div id="countdown" class="timer">10:00</div>
+                <div class="instructions">
+                    <p>Au bout de <strong> 10 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
+                    <p>Si <strong>vous naviguez</strong>hors de cette page, votre <strong>score sera pénalisé</strong> et fixé à 0.</p>
+                </div>
+            </div>
+            <div>
+                <img src="logoAm.png" alt="">
+                <p>&copy; 2025 Pr. Mohammed AMEKSA</p>
+            </div>
+        </div>
+        <!-- Main Content: Google Form -->
+        <div class="main-content" id="formContainer">
+            <div class="instructions" style="text-align:center;">
+                <h1>Bienvenue à la session de révision</h1>
+                <div class="note-card">
+                    <div class="icon">⚠️</div>
+                    <div class="content">
+                        <p>Au bout de <strong> 10 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
+                        <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera pénalisé</strong> et fixé à 0.</p>
+                    </div>
+                </div>
+                <p>Veuillez cliquer sur le bouton ci-dessous pour commençer le test en mode plein écran.</p>
+                <button class="button" id="fullscreenBtn">Start Quiz</button>
+            </div>         
+        </div>
+    </div>
+    
+    <script>
+        function requestFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Countdown Timer
+        let totalTime = 10 * 60; // 60 minutes in seconds
+        function startCountdown() {
+            const countdownElem = document.getElementById('countdown');
+            const interval = setInterval(function () {
+                const minutes = Math.floor(totalTime / 60);
+                let seconds = totalTime % 60;
+                if (seconds < 10) seconds = "0" + seconds;
+                countdownElem.textContent = minutes + ":" + seconds;
+                totalTime--;
+                if (totalTime < 0) {
+                    clearInterval(interval);
+                    alert("Time is up! Your exam will be submitted.");
+                    // Optionally, trigger auto-submission or additional actions here.
+                }
+            }, 1000);
+        }
+
+        // Detect if the user navigates away (switches tabs or minimizes)
+        let penaltyApplied = false;
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden && !penaltyApplied) {
+                penaltyApplied = true;
+                alert("You have navigated away from the exam. Your score will be set to 0.");
+                // Optionally, add logic to record the penalty on your backend.
+            }
+        });
+
+
+        function displayExam(){
+            var htmlCode = '<iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/1D_pWmh_oXz-fNSMROz19si_VLB7urpk8_IfVIdvUm8g/viewform?embedded=true"></iframe>';
+            var element = document.getElementById('formContainer');
+            element.innerHTML = htmlCode;
+            
+        }
+
+        btn = document.getElementById('fullscreenBtn');
+        btn.addEventListener("click", requestFullscreen);
+        btn.addEventListener("click", displayExam);
+        btn.addEventListener("click", startCountdown);
+    </script>
+</body>
+</html>
