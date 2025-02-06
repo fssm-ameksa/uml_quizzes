@@ -7,7 +7,7 @@
     <title>FSSM AMEKSA</title>
 </head>
 <body>
-    <div class="wrapper">
+    <div class="wrapper" id="wrapper">
         <div class="sidebar">
             <div>
                 <h2>Quiz de Révision</h2>
@@ -89,9 +89,8 @@
     }
 
     function clearFormContainerAndDisplayMessage(message) {
-        const formContainer = document.getElementById('formContainer');
+        const formContainer = document.getElementById('wrapper');
         if (formContainer) {
-            // Clear the formContainer
             formContainer.innerHTML = '';
             // Display a sample message
             const messageElement = document.createElement('div');
