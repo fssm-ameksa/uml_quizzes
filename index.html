@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>UML - FSSM AMEKSA</title>
+    <title>FSSM AMEKSA</title>
 </head>
+
 <body>
     <div class="wrapper" id="wrapper">
         <div class="sidebar">
@@ -13,8 +15,12 @@
                 <h2>Quiz de Révision</h2>
                 <div id="countdown" class="timer">15:00</div>
                 <div class="instructions">
-                    <p>Au bout de <strong> 15 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
-                    <p>Si <strong>vous naviguez</strong>hors de cette page, votre <strong>score sera pénalisé</strong> et fixé à 0.</p>
+                    <p>🎯 Testez vos connaissances avec le Quiz de Révision ! 🚀</p>
+                    <p>⚠️ Règles Importantes :</p>
+                    <p><strong>❌ Après 15 minutes </strong> , la plateforme soumettra automatiquement vos réponses !
+                        soit vous avez terminé, ou non.</p>
+                    <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera pénalisé</strong>
+                        et fixé à 0.</p>
                 </div>
             </div>
             <div>
@@ -29,89 +35,92 @@
                 <div class="note-card">
                     <div class="icon">⚠️</div>
                     <div class="content">
-                        <p>Au bout de <strong> 15 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
-                        <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera pénalisé</strong> et fixé à 0.</p>
+                        <p>Au bout de <strong> 15 minutes </strong>, le test sera terminé soit vous avez terminé, ou
+                            non.</p>
+                        <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera
+                                pénalisé</strong> et fixé à 0.</p>
                     </div>
                 </div>
                 <p>Veuillez cliquer sur le bouton ci-dessous pour commençer le test en mode plein écran.</p>
                 <button class="button" id="fullscreenBtn">Start Quiz</button>
-            </div>         
+            </div>
         </div>
     </div>
-    
-<script>
-    function requestFullscreen() {
-        const elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) {
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) {
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-            elem.msRequestFullscreen();
-        }
-    }
 
-    let totalTime = 15 * 60;
-    let interval;
-
-    function startCountdown() {
-        const countdownElem = document.getElementById('countdown');
-        interval = setInterval(function () {
-            const minutes = Math.floor(totalTime / 60);
-            let seconds = totalTime % 60;
-            if (seconds < 10) seconds = "0" + seconds;
-            countdownElem.textContent = minutes + ":" + seconds;
-            totalTime--;
-            if (totalTime < 0) {
-                clearInterval(interval);
-                handleTimeUp();
+    <script>
+        function requestFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
             }
-        }, 1000);
-    }
-
-    let penaltyApplied = false;
-    document.addEventListener('visibilitychange', function () {
-        if (document.hidden && !penaltyApplied) {
-            penaltyApplied = true;
-            handlePenalty();
         }
-    });
 
-    function handlePenalty() {
-        clearFormContainerAndDisplayMessage("Vous avez quitté l'examen. Votre score sera fixé à 0.");
-    }
+        let totalTime = 15 * 60;
+        let interval;
 
-    function handleTimeUp() {
-        // Display a message when the time is up
-        clearFormContainerAndDisplayMessage("Le temps est écoulé ! Votre examen a été soumis.");
-    }
-
-    function clearFormContainerAndDisplayMessage(message) {
-        const formContainer = document.getElementById('wrapper');
-        if (formContainer) {
-            formContainer.innerHTML = '';
-            // Display a sample message
-            const messageElement = document.createElement('div');
-            messageElement.style.textAlign = 'center';
-            messageElement.style.fontSize = '24px';
-            messageElement.style.marginTop = '50px';
-            messageElement.textContent = message;
-            formContainer.appendChild(messageElement);
+        function startCountdown() {
+            const countdownElem = document.getElementById('countdown');
+            interval = setInterval(function () {
+                const minutes = Math.floor(totalTime / 60);
+                let seconds = totalTime % 60;
+                if (seconds < 10) seconds = "0" + seconds;
+                countdownElem.textContent = minutes + ":" + seconds;
+                totalTime--;
+                if (totalTime < 0) {
+                    clearInterval(interval);
+                    handleTimeUp();
+                }
+            }, 1000);
         }
-    }
 
-    function displayExam() {
-        var htmlCode = '<iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/e/1FAIpQLSe9k08-uRud68H4ZU2sPNdJuDxmPh0zElu-FWgFEQZEV0gOEw/viewform?embedded=true"></iframe>';
-        var element = document.getElementById('formContainer');
-        element.innerHTML = htmlCode;
-    }
+        let penaltyApplied = false;
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden && !penaltyApplied) {
+                penaltyApplied = true;
+                handlePenalty();
+            }
+        });
 
-    btn = document.getElementById('fullscreenBtn');
-    btn.addEventListener("click", requestFullscreen);
-    btn.addEventListener("click", displayExam);
-    btn.addEventListener("click", startCountdown);
-</script>
+        function handlePenalty() {
+            clearFormContainerAndDisplayMessage("Vous avez quitté l'examen. Votre score sera fixé à 0.");
+        }
+
+        function handleTimeUp() {
+            // Display a message when the time is up
+            clearFormContainerAndDisplayMessage("Le temps est écoulé ! Votre examen a été soumis.");
+        }
+
+        function clearFormContainerAndDisplayMessage(message) {
+            const formContainer = document.getElementById('wrapper');
+            if (formContainer) {
+                formContainer.innerHTML = '';
+                // Display a sample message
+                const messageElement = document.createElement('div');
+                messageElement.style.textAlign = 'center';
+                messageElement.style.fontSize = '24px';
+                messageElement.style.marginTop = '50px';
+                messageElement.textContent = message;
+                formContainer.appendChild(messageElement);
+            }
+        }
+
+        function displayExam() {
+            var htmlCode = '<iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/e/1FAIpQLSe9k08-uRud68H4ZU2sPNdJuDxmPh0zElu-FWgFEQZEV0gOEw/viewform?embedded=true"></iframe>';
+            var element = document.getElementById('formContainer');
+            element.innerHTML = htmlCode;
+        }
+
+        btn = document.getElementById('fullscreenBtn');
+        btn.addEventListener("click", requestFullscreen);
+        btn.addEventListener("click", displayExam);
+        btn.addEventListener("click", startCountdown);
+    </script>
 </body>
+
 </html>
