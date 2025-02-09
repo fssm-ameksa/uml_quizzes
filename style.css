@@ -1,112 +1,157 @@
-  * {
-      box-sizing: border-box;
-  }
+/* General Reset */
+* {
+    box-sizing: border-box;
+}
 
-  html,
-  body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-  }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
 
-  /* Layout: Sidebar and main content */
-  .wrapper {
-      display: flex;
-      height: 100%;
-  }
+/* Layout: Sidebar and Main Content */
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
 
-  /* Sidebar styling */
-  .sidebar {
-      width: 300px;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
-      color: #fff;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-  }
+/* Sidebar Styling */
+.sidebar {
+    width: 300px;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-  .sidebar h2 {
-      margin-top: 0;
-      font-size: 28px;
-  }
+.sidebar h2 {
+    margin-top: 0;
+    font-size: 28px;
+}
 
-  .timer {
-      font-size: 48px;
-      font-weight: bold;
-      text-align: center;
-      margin: 20px 0;
-  }
+.timer {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
 
-  .instructions {
-      font-size: 16px;
-      line-height: 1.5;
-  }
+.instructions {
+    font-size: 16px;
+    line-height: 1.5;
+}
 
-  /* Main content styling */
-  .main-content {
-      flex: 1;
-      background-color: #f0f0f0;
-      position: relative;
-  }
+/* Main Content Styling */
+.main-content {
+    flex: 1;
+    background-color: #f0f0f0;
+    position: relative;
+    padding: 20px;
+}
 
-  .iframe-container {
-      width: 100%;
-      height: 100%;
-      border: none;
-  }
+.iframe-container {
+    width: 100%;
+    height: calc(100vh - 40px);
+    border: none;
+}
 
-  /* Iframe styling to display the Google Form */
-  iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
-  }
+/* Button Styling */
+button {
+    font-size: 20px;
+    padding: 12px 25px;
+    background: #fff;
+    color: #4e54c8;
+    border: 2px solid #4e54c8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
 
-  h1 {
-      font-size: 48px;
-      margin-bottom: 20px;
-  }
+button:hover {
+    background: #4e54c8;
+    color: #fff;
+}
 
-  button {
-      font-size: 24px;
-      padding: 15px 30px;
-      background: #fff;
-      color: #4e54c8;
-      border-color: #4e54c8;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
-  }
+/* Note Card Styling */
+.note-card {
+    background: #fff3e0;
+    border: 1px solid #ffcc80;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
 
-  button:hover {
-      background: #4e54c8;
-      color: #fff;
-  }
+.note-card .icon {
+    font-size: 50px;
+    color: #ff9800;
+    margin-bottom: 10px;
+}
 
-  .instructions {
-      margin: auto;
-  }
+.note-card .content {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+}
 
-  .note-card {
-      background: #fff3e0;
-      border: 1px solid #ffcc80;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      width: 60%;
-      margin: auto;
-  }
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
 
-  .note-card .icon {
-      font-size: 50px;
-      color: #ff9800;
-  }
+    .timer {
+        font-size: 36px;
+    }
 
-  .note-card .content {
-      font-size: 16px;
-      color: #555;
-      background: #fff3e0;
-  }
+    .main-content {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    .note-card {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 5px;
+    }
+
+    .timer {
+        font-size: 28px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .note-card {
+        width: 100%;
+        padding: 10px;
+    }
+}
