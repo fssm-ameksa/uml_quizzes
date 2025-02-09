@@ -11,9 +11,9 @@
         <div class="sidebar">
             <div>
                 <h2>Quiz de Révision</h2>
-                <div id="countdown" class="timer">10:00</div>
+                <div id="countdown" class="timer">15:00</div>
                 <div class="instructions">
-                    <p>Au bout de <strong> 10 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
+                    <p>Au bout de <strong> 15 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
                     <p>Si <strong>vous naviguez</strong>hors de cette page, votre <strong>score sera pénalisé</strong> et fixé à 0.</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="note-card">
                     <div class="icon">⚠️</div>
                     <div class="content">
-                        <p>Au bout de <strong> 10 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
+                        <p>Au bout de <strong> 15 minutes </strong>, le test sera terminé soit vous avez terminé, ou non.</p>
                         <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera pénalisé</strong> et fixé à 0.</p>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
         }
     }
 
-    let totalTime = 10 * 60;
+    let totalTime = 15 * 60;
     let interval;
 
     function startCountdown() {
@@ -103,7 +103,7 @@
     }
 
     function displayExam() {
-        var htmlCode = '<h1>Quiz N°: 1 </h1><iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/1D_pWmh_oXz-fNSMROz19si_VLB7urpk8_IfVIdvUm8g/viewform?embedded=true"></iframe>';
+        var htmlCode = '<iframe id="examFrame" class="iframe-container" src="https://docs.google.com/forms/d/e/1FAIpQLSe9k08-uRud68H4ZU2sPNdJuDxmPh0zElu-FWgFEQZEV0gOEw/viewform?embedded=true"></iframe>';
         var element = document.getElementById('formContainer');
         element.innerHTML = htmlCode;
     }
