@@ -13,11 +13,11 @@
         <div class="sidebar">
             <div>
                 <h2>Quiz de Révision</h2>
-                <div id="countdown" class="timer">15:00</div>
+                <div id="countdown" class="timer">20:00</div>
                 <div class="instructions">
                     <p>🎯 Testez vos connaissances avec le Quiz de Révision ! 🚀</p>
                     <p>⚠️ Règles Importantes :</p>
-                    <p><strong>❌ Après 15 minutes </strong> , la plateforme soumettra automatiquement vos réponses !
+                    <p><strong>❌ Après 20 minutes </strong> , la plateforme soumettra automatiquement vos réponses !
                         soit vous avez terminé, ou non.</p>
                     <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera pénalisé</strong>
                         et fixé à 0.</p>
@@ -32,10 +32,11 @@
         <div class="main-content" id="formContainer">
             <div class="instructions" style="text-align:center;">
                 <h1>Bienvenue à la session de révision</h1>
+                <h2>Groupe 1 - SMI S6 - 2024/2025</h2>
                 <div class="note-card">
                     <div class="icon">⚠️</div>
                     <div class="content">
-                        <p>Au bout de <strong> 15 minutes </strong>, le test sera terminé soit vous avez terminé, ou
+                        <p>Au bout de <strong> 20 minutes </strong>, le test sera terminé soit vous avez terminé, ou
                             non.</p>
                         <p>Si <strong>vous naviguez</strong> hors de cette page, votre <strong>score sera
                                 pénalisé</strong> et fixé à 0.</p>
@@ -43,41 +44,102 @@
                 </div>
                 <p>Veuillez cliquer sur le bouton ci-dessous pour commençer le test en mode plein écran.</p>
                 <button class="button" id="fullscreenBtn">Start Quiz</button>
-            </div>
+            </h2>
         </div>
     </div>
 
     <script>
-        function requestFullscreen() {
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            }
-        }
+        let totalTime = 20 * 60;
+            let interval;
+            let isExamStarted = false;  // New variable to track exam state
 
-        let totalTime = 15 * 60;
-        let interval;
-
-        function startCountdown() {
-            const countdownElem = document.getElementById('countdown');
-            interval = setInterval(function () {
-                const minutes = Math.floor(totalTime / 60);
-                let seconds = totalTime % 60;
-                if (seconds < 10) seconds = "0" + seconds;
-                countdownElem.textContent = minutes + ":" + seconds;
-                totalTime--;
-                if (totalTime < 0) {
-                    clearInterval(interval);
-                    handleTimeUp();
+            function requestFullscreen() {
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
                 }
-            }, 1000);
-        }
+            }
+
+            // Add fullscreen change event listener
+            document.addEventListener('fullscreenchange', function () {
+                if (!document.fullscreenElement && isExamStarted) {
+                    handlePenalty();
+                }
+            });
+
+            // Prevent right-click
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+
+            // Prevent keyboard shortcuts
+            document.addEventListener('keydown', function (e) {
+                // Prevent common shortcuts
+                if ((e.ctrlKey || e.metaKey) &&
+                    (e.key === 'c' || e.key === 'p' || e.key === 'u' ||
+                        e.key === 's' || e.key === 'a' || e.key === 'f')) {
+                    e.preventDefault();
+                }
+                // Prevent Alt+Tab
+                if (e.altKey && e.key === 'Tab') {
+                    e.preventDefault();
+                }
+                // Prevent F11
+                if (e.key === 'F11') {
+                    e.preventDefault();
+                }
+            });
+
+            function startCountdown() {
+                isExamStarted = true;
+                const countdownElem = document.getElementById('countdown');
+                interval = setInterval(function () {
+                    const minutes = Math.floor(totalTime / 60);
+                    let seconds = totalTime % 60;
+                    if (seconds < 10) seconds = "0" + seconds;
+                    countdownElem.textContent = minutes + ":" + seconds;
+
+                    // Add warning when time is running low (last 5 minutes)
+                    if (totalTime <= 300) {
+                        countdownElem.style.color = 'red';
+                        countdownElem.style.animation = 'blink 1s infinite';
+                    }
+
+                    totalTime--;
+                    if (totalTime < 0) {
+                        clearInterval(interval);
+                        handleTimeUp();
+                    }
+                }, 1000);
+            }
+
+            // Add this CSS to your existing styles
+              const style = document.createElement('style');
+                style.textContent = `
+            .timer {
+                font-size: 28px;
+                font-weight: bold;
+            }
+            .warning {
+                color: #ff6b6b;
+                animation: blink 1s infinite;
+            }
+            .critical {
+                color: #ff0000;
+                animation: blink 0.5s infinite;
+                font-size: 28px;
+            }
+            @keyframes blink {
+                50% { opacity: 0.5; }
+            }
+        `;
+                document.head.appendChild(style);
 
         let penaltyApplied = false;
         document.addEventListener('visibilitychange', function () {
@@ -117,9 +179,11 @@
         }
 
         btn = document.getElementById('fullscreenBtn');
-        btn.addEventListener("click", requestFullscreen);
-        btn.addEventListener("click", displayExam);
-        btn.addEventListener("click", startCountdown);
+            btn.addEventListener("click", function () {
+                requestFullscreen();
+                displayExam();
+                startCountdown();
+            });
     </script>
 </body>
 
