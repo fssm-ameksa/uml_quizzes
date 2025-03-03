@@ -73,28 +73,8 @@
                 }
             });
 
-            // Prevent right-click
-            document.addEventListener('contextmenu', function (e) {
-                e.preventDefault();
-            });
-
-            // Prevent keyboard shortcuts
-            document.addEventListener('keydown', function (e) {
-                // Prevent common shortcuts
-                if ((e.ctrlKey || e.metaKey) &&
-                    (e.key === 'c' || e.key === 'p' || e.key === 'u' ||
-                        e.key === 's' || e.key === 'a' || e.key === 'f')) {
-                    e.preventDefault();
-                }
-                // Prevent Alt+Tab
-                if (e.altKey && e.key === 'Tab') {
-                    e.preventDefault();
-                }
-                // Prevent F11
-                if (e.key === 'F11') {
-                    e.preventDefault();
-                }
-            });
+    
+            
 
             function startCountdown() {
                 isExamStarted = true;
